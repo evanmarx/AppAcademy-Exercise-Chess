@@ -36,7 +36,7 @@ class Board
   def set_backrows
     self.size.times do |i|
       @grid[0][i] = @@b_row[i].new([0,i], :wh)
-      @grid[-1][i] = @@b_row.[i].new([-1,i], :bl)
+      @grid[-1][i] = @@b_row[i].new([-1,i], :bl)
     end
   end
 
@@ -48,13 +48,14 @@ class Board
     piece = get_spot(source)
     begin
       piece.move(dest, self)
+      self.set_spot(piece, dest)
+      self.nil_spot(source)
     rescue IllegalMove
       puts "Illegal Move"
     end
-    self.set_spot(piece, dest)
   end
 
-  def b_remove(pos)
+  def nil_spot(pos)
      self.set_spot(nil, pos)
   end
 

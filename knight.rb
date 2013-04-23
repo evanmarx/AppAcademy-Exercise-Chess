@@ -18,7 +18,11 @@ class Knight < Piece
   def poss_moves(board)
     valid_m = check_onboard(board)
 
-    valid_m.delete_if {|pos| board.spot(pos).color == self.color  }
+    valid_m.delete_if do |pos|
+      if board.get_spot(pos)
+        board.get_spot(pos).color == self.color
+      end
+    end
     # add check_check
 
   end

@@ -13,7 +13,11 @@ class Piece
   end
 
   def move(dest, board)
-    @pos = dest if self.poss_moves(board).include?(dest)
+    if self.poss_moves(board).include?(dest)
+      @pos = dest
+    else
+      raise IllegalMove
+    end
   end
 
   def capture
@@ -27,5 +31,5 @@ class Piece
 
 end
 
-# class IllegalMove < StandardError
-# end
+class IllegalMove < StandardError
+end
