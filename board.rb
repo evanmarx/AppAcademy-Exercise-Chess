@@ -44,16 +44,25 @@ class Board
     p @grid
   end
 
-  def b_move(source, dest) # RENAME
-    piece = get_spot(source)
-    begin
-      piece.move(dest, self)
+  def move(source, dest) # RENAME
+    piece = get_spot(source) unless get_spot(source).nil?
+    if piece.poss_moves.include?(dest)
       self.set_spot(piece, dest)
       self.nil_spot(source)
-    rescue IllegalMove
-      puts "Illegal Move"
+      piece.pos = dest
+    else
+      raise IllegalMove
     end
   end
+
+  def legal_move(source, dest)
+    begin
+      move(source, dest)
+    rescue IllegalMove => e
+      puts "That's an illegal move"
+    end
+  end
+
 
   def nil_spot(pos)
      self.set_spot(nil, pos)
