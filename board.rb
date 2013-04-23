@@ -1,3 +1,6 @@
+# encoding: utf-8
+
+
 require_relative "piece"
 require_relative "knight"
 require_relative "rook"
