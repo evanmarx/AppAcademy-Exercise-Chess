@@ -1,8 +1,8 @@
-require 'piece'
+require_relative "piece"
 
 class Knight < Piece
 
-  DELTAS = [[1, 2],
+  @@deltas = [[1, 2],
             [2, 1],
             [-1, 2],
             [-1, -2],
@@ -26,7 +26,7 @@ class Knight < Piece
   def check_onboard(board)
     valid_m=[]
 
-    DELTAS.each do |dx,dy|
+    @@deltas.each do |dx,dy|
       if (0..board.size).include?( self.pos[0]+dx) && (0..board.size).include?( self.pos[1]+dy)
         valid_m << [self.pos[0] + dx, self.pos[1] + dy]
       end
