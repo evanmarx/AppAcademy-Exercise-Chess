@@ -28,15 +28,15 @@ class Board
 
   def set_pawns
     self.size.times do |i|
-      @grid[1][i] = Pawn.new([1,i], :wh)
-      @grid[-2][i] = Pawn.new([-2,i], :bl)
+      @grid[1][i] = Pawn.new([1,i], :wh, self)
+      @grid[-2][i] = Pawn.new([-2,i], :bl, self)
     end
   end
 
   def set_backrows
     self.size.times do |i|
-      @grid[0][i] = BACK_ROW[i].new([0,i], :wh)
-      @grid[-1][i] = BACK_ROW[i].new([-1,i], :bl)
+      @grid[0][i] = BACK_ROW[i].new([0,i], :wh, self)
+      @grid[-1][i] = BACK_ROW[i].new([-1,i], :bl, self)
     end
   end
 
@@ -47,8 +47,7 @@ class Board
   def move(source, dest) # RENAME
     piece = get_spot(source) unless get_spot(source).nil?
     if piece.poss_moves.include?(dest)
-      self.set_spot(piece, dest)
-      self.nil_spot(source)
+      self.set_spot(piece, dest).nil_spot(source)
       piece.pos = dest
     else
       raise IllegalMove
@@ -66,11 +65,13 @@ class Board
 
   def nil_spot(pos)
      self.set_spot(nil, pos)
+     self
   end
 
   def set_spot(to_put, pos)
     x,y = pos
     self.grid[x][y] = to_put
+    self
   end
 
   def get_spot(pos)

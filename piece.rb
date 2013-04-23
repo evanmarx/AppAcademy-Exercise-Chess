@@ -23,10 +23,10 @@ class Piece
   def capture
   end
 
-  def poss_moves(board)
+  def poss_moves
   end
 
-  def check_check(board)
+  def check_check
   end
 
 end
