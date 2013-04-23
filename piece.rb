@@ -1,24 +1,24 @@
 
 class Piece
 
-  @@deltas = []
+  # @@deltas = []
 
-  attr_accessor :pos, :alive, :color
-  alias_method :alive?, :alive
+  attr_accessor :pos, :color, :board
 
-  def initialize(pos, color)
+
+  def initialize(pos, color, board)
     @pos = pos
     @color = color
-    @alive = true
+    @board = board
   end
 
-  def move(dest, board)
-    if self.poss_moves(board).include?(dest)
-      @pos = dest
-    else
-      raise IllegalMove
-    end
-  end
+  # def move(dest, board) # Move into board.
+  #   if self.poss_moves(board).include?(dest)
+  #     @pos = dest
+  #   else
+  #     raise IllegalMove
+  #   end
+  # end
 
   def capture
   end
@@ -29,7 +29,4 @@ class Piece
   def check_check(board)
   end
 
-end
-
-class IllegalMove < StandardError
 end

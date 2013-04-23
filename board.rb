@@ -11,7 +11,7 @@ class Board
 
   attr_accessor :size, :grid
 
-  @@b_row = [Rook, Knight,
+  BACK_ROW = [Rook, Knight,
              Bishop, Queen,
              King, Bishop,
              Knight, Rook]
@@ -35,8 +35,8 @@ class Board
 
   def set_backrows
     self.size.times do |i|
-      @grid[0][i] = @@b_row[i].new([0,i], :wh)
-      @grid[-1][i] = @@b_row[i].new([-1,i], :bl)
+      @grid[0][i] = BACK_ROW[i].new([0,i], :wh)
+      @grid[-1][i] = BACK_ROW[i].new([-1,i], :bl)
     end
   end
 
@@ -44,7 +44,7 @@ class Board
     p @grid
   end
 
-  def b_move(source, dest)
+  def b_move(source, dest) # RENAME
     piece = get_spot(source)
     begin
       piece.move(dest, self)
@@ -69,4 +69,8 @@ class Board
     self.grid[x][y]
   end
 
+end
+
+
+class IllegalMove < StandardError
 end
