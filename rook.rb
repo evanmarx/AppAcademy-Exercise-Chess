@@ -10,7 +10,7 @@ class Rook < Piece
   end
 
   def display
-
+    @color == :wh ? ♖ : ♜
   end
 
 
