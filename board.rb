@@ -44,7 +44,22 @@ class Board
   end
 
   def display
-    p @grid
+    header = "xy|"
+    @grid.size.times {|i| header += i.to_s.ljust(2)}
+    puts header
+    @grid.size.times {|i| puts i.to_s.ljust(3) + print_row(i)}
+  end
+
+  def print_row(i)
+    row = ""
+    @grid[i].each do |el|
+      if el
+        row << el.display.ljust(2)
+      else
+        row << "  "
+      end
+    end
+    row
   end
 
   def move(from_pos, to_pos) # RENAME
@@ -53,7 +68,7 @@ class Board
     raise IllegalMove.new("No Piece Found") unless piece
     raise IllegalMove unless piece.poss_moves.include?(to_pos)
 
-    self.set_spot(from_pos, to_pos)
+    self.set_spot(piece, to_pos)
     self.nil_spot(from_pos)
     piece.pos = to_pos
 
@@ -86,7 +101,7 @@ class Board
   end
 
   def in_board?(pos)
-    pos.all? {|el| (0...@board.size).include?(el)}
+    pos.all? {|el| (0...@grid.size).include?(el)}
   end
 
 end

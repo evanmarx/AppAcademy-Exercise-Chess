@@ -4,7 +4,7 @@ class King < Piece
 
 
   def display
-    @color == :wh ? ♔ : ♚
+    @color == :wh ? "♔" : "♚"
   end
 
 end

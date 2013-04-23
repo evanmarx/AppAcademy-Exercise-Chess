@@ -1,7 +1,8 @@
+# encoding: utf-8
 
 class Piece
 
-  # @@deltas = []
+
 
   attr_accessor :pos, :color, :board
 
@@ -20,8 +21,8 @@ class Piece
   #   end
   # end
 
-  def capture
-  end
+  # def capture
+ #  end
 
   def poss_moves
   end

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Pawn < Piece
 
   DELTAS = [[0, 1], [0, 2], [1, 1], [-1, 1]]
@@ -19,11 +21,12 @@ class Pawn < Piece
       if @board.get_spot(pos)
         @board.get_spot(pos).color == @color
       end
+    end
 
   end
 
   def display
-    @color == :wh ? ♙ : ♟
+    @color == :wh ? "♙" : "♟"
   end
 
 end

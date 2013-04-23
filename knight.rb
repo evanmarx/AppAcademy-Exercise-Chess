@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require_relative "piece"
 
 class Knight < Piece
@@ -11,33 +13,34 @@ class Knight < Piece
             [-2, -1],
             [2, -1]]
 
-  # def initialize(pos, color)
-#     super
-#   end
-
   def poss_moves
-    valid_m = check_onboard
+    valid_moves = check_onboard
 
-    valid_m.delete_if do |pos|
+    valid_moves.delete_if do |pos|
       if @board.get_spot(pos)
         @board.get_spot(pos).color == @color
       end
     end
-    # add check_check
 
+  valid_moves
   end
+
+
 
   def check_onboard
-    valid_m=[]
+    valid_moves=[]
 
     DELTAS.each do |dx,dy|
-      if (0..@board.size).include?( @pos[0]+dx) && (0..@board.size).include?( self.pos[1]+dy)
-        valid_m << [@pos[0] + dx, @pos[1] + dy]
-      end
+      pos_check = [@pos[0] + dx, @pos[1] + dy]
+      valid_moves << pos_check if @board.in_board?(pos_check)
     end
 
-    valid_m
+    valid_moves
   end
 
+
+  def display
+    @color == :wh ? "♘" : "♞"
+  end
 
 end

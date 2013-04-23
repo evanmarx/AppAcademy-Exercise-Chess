@@ -4,7 +4,7 @@ class Queen < Piece
 
 
   def display
-    @color == :wh ? ♕ : ♛
+    @color == :wh ? "♕" : "♛"
   end
 
 end
