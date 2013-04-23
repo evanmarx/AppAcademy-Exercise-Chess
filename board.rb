@@ -44,14 +44,17 @@ class Board
     p @grid
   end
 
-  def move(source, dest) # RENAME
-    piece = get_spot(source) unless get_spot(source).nil?
-    if piece.poss_moves.include?(dest)
-      self.set_spot(piece, dest).nil_spot(source)
-      piece.pos = dest
-    else
-      raise IllegalMove
-    end
+  def move(from_pos, to_pos) # RENAME
+
+    piece = get_spot(from_pos)
+    raise IllegalMove.new("No Piece Found") unless piece
+    raise IllegalMove unless piece.poss_moves.include?(to_pos)
+
+    self.set_spot(from_pos, to_pos)
+    self.nil_spot(from_pos)
+    piece.pos = to_pos
+
+    self
   end
 
   def legal_move(source, dest)
@@ -77,6 +80,10 @@ class Board
   def get_spot(pos)
     x, y = pos
     self.grid[x][y]
+  end
+
+  def in_board?(pos)
+    pos.all? {|el| (0...@board.size).include?(el)}
   end
 
 end
