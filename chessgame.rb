@@ -43,6 +43,7 @@ class Chessgame
     puts "You quitter." unless winner?
     puts @board.check_mate?(:white) ? "Black wins!" : "White wins!"
   end
+
 end
 
 a = Chessgame.new
