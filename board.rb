@@ -25,7 +25,7 @@ class Board
   end
 
   def board_setup
-    set_pawns
+    # set_pawns
     set_backrows
   end
 
@@ -44,27 +44,18 @@ class Board
   end
 
   def display
-    header = "xy|"
-    @grid.size.times {|i| header += i.to_s.ljust(2)}
-    puts header
+    puts "xy|" + (0...@grid.size).map {|i| i.to_s}.join(" ")
     @grid.size.times {|i| puts i.to_s.ljust(3) + print_row(i)}
   end
 
   def print_row(i)
-    row = ""
-    @grid[i].each do |el|
-      if el
-        row << el.display.ljust(2)
-      else
-        row << "  "
-      end
-    end
-    row
+    @grid[i].map {|el| el ? el.display.ljust(2) : "  "}.join("")
   end
 
   def move(from_pos, to_pos) # RENAME
 
     piece = get_spot(from_pos)
+    p piece.poss_moves
     raise IllegalMove.new("No Piece Found") unless piece
     raise IllegalMove unless piece.poss_moves.include?(to_pos)
 
