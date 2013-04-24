@@ -11,6 +11,7 @@ class Piece
     @pos = pos
     @color = color
     @board = board
+    @board.set_spot(self, pos)
   end
 
   def moves
@@ -21,5 +22,8 @@ class Piece
     @board.get_spot(move).nil? || @board.get_spot(move).color != @color
   end
 
+  def dup(new_board)
+    new_piece = self.class.new(@pos, @color, new_board)
+  end
 
 end

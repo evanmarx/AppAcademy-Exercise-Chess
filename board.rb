@@ -32,15 +32,15 @@ class Board
 
   def set_pawns
     self.size.times do |i|
-      @grid[1][i] = Pawn.new([1,i], :wh, self)
-      @grid[-2][i] = Pawn.new([self.size-2,i], :bl, self)
+      Pawn.new([1,i], :wh, self)
+      Pawn.new([self.size-2,i], :bl, self)
     end
   end
 
   def set_backrows
     self.size.times do |i|
-      @grid[0][i] = BACK_ROW[i].new([0,i], :wh, self)
-      @grid[-1][i] = BACK_ROW[i].new([self.size-1,i], :bl, self)
+      BACK_ROW[i].new([0,i], :wh, self)
+      BACK_ROW[i].new([self.size-1,i], :bl, self)
     end
   end
 
@@ -56,6 +56,7 @@ class Board
   def move(from_pos, to_pos) # RENAME
 
     piece = get_spot(from_pos)
+    p piece.class
     p piece.moves
     raise IllegalMove.new("No Piece Found") unless piece
     raise IllegalMove unless piece.moves.include?(to_pos)
@@ -71,7 +72,7 @@ class Board
     begin
       move(source, dest)
     rescue IllegalMove => e
-      puts "That's an illegal move"
+      puts e.message
     end
   end
 
@@ -108,15 +109,20 @@ class Board
   end
 
   def check_mate?(color)
-    pieces = @grid.flatten.compact.select { |piece| piece.color == color}
+    # pieces = []
+    # @grid.flatten.compact.each do |piece|
+    #   pieces << piece.dup if piece.color == color
+    # end
     boards = []
+    pieces = self.pieces.select {|piece| piece.color == color}
     pieces.each do |piece|
       piece.moves.each do |move|
         boards << self.dup.move(piece.pos, move)
       end
     end
 
-    boards.all? {|board| board.in_check?(color)}
+    boards.each { |board| p board.in_check?(color) }
+
   end
 
   def reveal_check?
@@ -130,6 +136,15 @@ class Board
     piece.class == King && piece.color == color
   end
 
+  def dup
+    new_board = Board.new
+    self.pieces.each { |piece| piece.dup(new_board) }
+    new_board
+  end
+
+  def pieces
+    @grid.flatten.compact
+  end
 
 end
 
