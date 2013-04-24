@@ -18,7 +18,7 @@ class Piece
 
   # Check if the spot is empty or a bad guy.
   def valid_move?(move)
-   @board.get_spot(move).nil? || @board.get_spot(move).color != @color
+    @board.get_spot(move).nil? || @board.get_spot(move).color != @color
   end
 
   def check_check
