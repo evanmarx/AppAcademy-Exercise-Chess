@@ -26,7 +26,7 @@ class Knight < Piece
 
 
   def display
-    @color == :wh ? "♘" : "♞"
+    @color == :white ? "♘" : "♞"
   end
 
 end

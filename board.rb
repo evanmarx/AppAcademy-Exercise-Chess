@@ -32,15 +32,15 @@ class Board
 
   def set_pawns
     self.size.times do |i|
-      Pawn.new([1,i], :wh, self)
-      Pawn.new([self.size-2,i], :bl, self)
+      Pawn.new([1,i], :white, self)
+      Pawn.new([self.size-2,i], :black, self)
     end
   end
 
   def set_backrows
     self.size.times do |i|
-      BACK_ROW[i].new([0,i], :wh, self)
-      BACK_ROW[i].new([self.size-1,i], :bl, self)
+      BACK_ROW[i].new([0,i], :white, self)
+      BACK_ROW[i].new([self.size-1,i], :black, self)
     end
   end
 
@@ -53,12 +53,19 @@ class Board
     @grid[i].map {|el| el ? el.display.ljust(2) : "  "}.join("")
   end
 
-  def move(from_pos, to_pos) # RENAME
-
-    piece = get_spot(from_pos)
+  def try_move(from_pos, to_pos)
+    piece = self.dup.get_spot(from_pos)
 
     raise IllegalMove.new("No Piece Found") unless piece
-    raise IllegalMove unless piece.moves.include?(to_pos)
+    raise IllegalMove.new("You Cheater!") unless piece.moves.include?(to_pos)
+    raise IllegalMove.new("Revealed Check") if self.dup.reveal_check?(from_pos, to_pos)
+
+    self.move(from_pos, to_pos)
+  end
+
+  def move(from_pos, to_pos)
+
+    piece = get_spot(from_pos)
 
     self.set_spot(piece, to_pos)
     self.nil_spot(from_pos)
@@ -66,15 +73,6 @@ class Board
 
     self
   end
-
-  def legal_move(source, dest)
-    begin
-      move(source, dest)
-    rescue IllegalMove => e
-      puts e.message
-    end
-  end
-
 
   def nil_spot(pos)
      self.set_spot(nil, pos)
@@ -102,6 +100,7 @@ class Board
 
   def in_check?(color)
     king_spot = get_king_spot(color)
+
     whole_grid = @grid.flatten.compact
     whole_grid.any? {|piece| piece.moves.include?(king_spot)}
   end
@@ -109,6 +108,7 @@ class Board
   def check_mate?(color)
     boards = []
     pieces = self.pieces.select {|piece| piece.color == color}
+
     pieces.each do |piece|
       piece.moves.each { |move| boards << self.dup.move(piece.pos, move)}
     end
@@ -116,7 +116,12 @@ class Board
     boards.all? { |board| board.in_check?(color) }
   end
 
-  def reveal_check?
+  def reveal_check?(from_pos, to_pos)
+    piece = self.get_spot(from_pos)
+
+    self.move(from_pos, to_pos)
+
+    self.in_check?(piece.color)
   end
 
   def get_king_spot(color)

@@ -5,10 +5,9 @@ require_relative "player"
 
 class Chessgame
 
-  attr_accessor :board, :quit
+  attr_accessor :board
 
   def initialize
-    @quit = false
     @board = Board.new()
     @player1 = HumanPlayer.new
     @player2 = HumanPlayer.new
@@ -18,13 +17,20 @@ class Chessgame
   def run
     startup
 
-    turn until winner? || @quit
+    until winner? || @player1.quitter || @player2.quitter
+      begin
+        @player1.take_turn(@board)
+        @player2.take_turn(@board)
+      rescue IllegalMove => e
+        puts e.message
+      end
+    end
 
     game_over
   end
 
   def winner?
-    @board.check_mate?(:wh) || @board.check_mate?(:bl)
+    @board.check_mate?(:white) || @board.check_mate?(:black)
   end
 
   def startup
@@ -33,30 +39,9 @@ class Chessgame
     @board.display
   end
 
-  def turn
-    raw = @player1.get_move
-    if raw == :quit
-      @quit = true
-    else
-      start_pos, end_pos = raw
-    end
-    @board.legal_move(start_pos, end_pos)
-    @board.display
-
-    raw = @player2.get_move
-    if raw == :quit
-      return game_over
-    else
-        start_pos, end_pos = raw
-    end
-    @board.legal_move(start_pos, end_pos)
-    @board.display
-  end
-
-
   def game_over
     puts "You quitter." unless winner?
-    puts @board.check_mate?(:wh) ? "Black wins!" : "White wins!"
+    puts @board.check_mate?(:white) ? "Black wins!" : "White wins!"
   end
 end
 

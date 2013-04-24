@@ -9,7 +9,12 @@ class Pawn < Piece
 
     # scalar multiplication flips deltas:
     # white => positive, black => negative
-    @color == :wh ? deltas = DELTAS : deltas = DELTAS.map {|x,y| [x*-1, y*-1]}
+    if @color == :white 
+      deltas = DELTAS 
+    else 
+      deltas = DELTAS.map {|x,y| [x*-1, y*-1]}
+    end
+    
     poss_moves = deltas.map {|dx,dy| [@pos[0]+dx, @pos[1]+dy]}
 
     moves << poss_moves[0] unless @board.get_spot(poss_moves[0])
@@ -28,7 +33,7 @@ class Pawn < Piece
   end
 
   def display
-    @color == :wh ? "♙" : "♟"
+    @color == :white ? "♙" : "♟"
   end
 
 end

@@ -1,15 +1,15 @@
 class Player
-  attr_reader :color
+
+  attr_accessor :quitter
 
   def initialize
-    #@color = color
+    @quitter = false
   end
 
 end
 
 
 class HumanPlayer < Player
-
 
   def get_move
     puts "Please enter a start position x,y or q for quit:"
@@ -23,8 +23,18 @@ class HumanPlayer < Player
     [start_position, end_position]
   end
 
+  def take_turn(board)
+    p @quitter
+    raw = self.get_move
+    if raw == :quit
+      @quitter = true
+    else
+      start_pos, end_pos = raw
+    end
 
-
+    board.try_move(start_pos, end_pos)
+    board.display
+  end
 
 end
 
