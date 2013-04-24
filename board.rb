@@ -25,7 +25,7 @@ class Board
   end
 
   def board_setup
-    # set_pawns
+    set_pawns
     set_backrows
   end
 
