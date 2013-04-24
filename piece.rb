@@ -24,7 +24,7 @@ class Piece
   # def capture
  #  end
 
-  def poss_moves
+  def moves
   end
 
   def check_check

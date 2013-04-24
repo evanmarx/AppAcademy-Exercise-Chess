@@ -13,7 +13,7 @@ class Knight < Piece
             [-2, -1],
             [2, -1]]
 
-  def poss_moves
+  def moves
     valid_moves = check_onboard
 
     valid_moves.delete_if do |pos|

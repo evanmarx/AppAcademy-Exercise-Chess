@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require_relative "slider"
+
 class Rook < SlidePiece
 
   DIRECTIONS = [[1,0], [0,1], [-1,0], [0,-1]]

@@ -8,6 +8,7 @@ require_relative "queen"
 require_relative "bishop"
 require_relative "king"
 require_relative "pawn"
+require_relative "slider"
 
 
 class Board
@@ -25,7 +26,7 @@ class Board
   end
 
   def board_setup
-    set_pawns
+#    set_pawns
     set_backrows
   end
 
@@ -55,9 +56,9 @@ class Board
   def move(from_pos, to_pos) # RENAME
 
     piece = get_spot(from_pos)
-    p piece.poss_moves
+    p piece.moves
     raise IllegalMove.new("No Piece Found") unless piece
-    raise IllegalMove unless piece.poss_moves.include?(to_pos)
+    raise IllegalMove unless piece.moves.include?(to_pos)
 
     self.set_spot(piece, to_pos)
     self.nil_spot(from_pos)
@@ -87,8 +88,12 @@ class Board
   end
 
   def get_spot(pos)
-    x, y = pos
-    self.grid[x][y]
+    if in_board?(pos)
+      x, y = pos
+      self.grid[x][y]
+    else
+      nil
+    end
   end
 
   def in_board?(pos)

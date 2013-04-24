@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require_relative "slider"
+
 class Bishop < SlidePiece
 
   DIRECTIONS = [[1, 1], [-1, -1], [1, -1], [-1, 1]]
