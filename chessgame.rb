@@ -1,10 +1,14 @@
 # encoding: utf-8
 
-def Chessgame
+require_relative "board"
+require_relative "player"
 
-  def attr_accessor :board
+class Chessgame
+
+  attr_accessor :board, :quit
 
   def initialize
+    @quit = false
     @board = Board.new()
     @player1 = HumanPlayer.new
     @player2 = HumanPlayer.new
@@ -12,33 +16,49 @@ def Chessgame
 
 
   def run
-    hello
+    startup
 
-    until winner? || quit?
-      turn(@player1)
-      @board.display
-      turn(@player2)
-      @board.display
-    end
+    turn until winner? || @quit
 
     game_over
   end
 
   def winner?
+    @board.check_mate?(:wh) || @board.check_mate?(:bl)
   end
 
-  def quit?
+  def startup
+    puts "Welcome to Chess"
+    @board.board_setup
+    @board.display
   end
 
   def turn
-    [start_pos, end_pos] = get_input
-    update_board(start_pos, end_pos)
+    raw = @player1.get_move
+    if raw == :quit
+      @quit = true
+    else
+      start_pos, end_pos = raw
+    end
+    @board.legal_move(start_pos, end_pos)
+    @board.display
+
+    raw = @player2.get_move
+    if raw == :quit
+      return game_over
+    else
+        start_pos, end_pos = raw
+    end
+    @board.legal_move(start_pos, end_pos)
+    @board.display
   end
 
-  def get_input
-  end
 
-  def update_board
+  def game_over
+    puts "You quitter." unless winner?
+    puts @board.check_mate?(:wh) ? "Black wins!" : "White wins!"
   end
-
 end
+
+a = Chessgame.new
+a.run
