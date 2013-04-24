@@ -13,7 +13,7 @@ class Pawn < Piece
     poss_moves = deltas.map {|dx,dy| [@pos[0]+dx, @pos[1]+dy]}
 
     moves << poss_moves[0] unless @board.get_spot(poss_moves[0])
-    moves << poss_moves[1] if move_two?(moves, poss_moves)
+    moves << poss_moves[1] if move_two?(moves, poss_moves[1])
     2.times { |i| moves << poss_moves[i+2] if capture?(poss_moves[i+2]) }
 
     moves
