@@ -33,14 +33,14 @@ class Board
   def set_pawns
     self.size.times do |i|
       @grid[1][i] = Pawn.new([1,i], :wh, self)
-      @grid[-2][i] = Pawn.new([-2,i], :bl, self)
+      @grid[-2][i] = Pawn.new([self.size-2,i], :bl, self)
     end
   end
 
   def set_backrows
     self.size.times do |i|
       @grid[0][i] = BACK_ROW[i].new([0,i], :wh, self)
-      @grid[-1][i] = BACK_ROW[i].new([-1,i], :bl, self)
+      @grid[-1][i] = BACK_ROW[i].new([self.size-1,i], :bl, self)
     end
   end
 

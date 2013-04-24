@@ -13,18 +13,12 @@ class Piece
     @board = board
   end
 
-  # def move(dest, board) # Move into board.
-  #   if self.poss_moves(board).include?(dest)
-  #     @pos = dest
-  #   else
-  #     raise IllegalMove
-  #   end
-  # end
-
-  # def capture
- #  end
-
   def moves
+  end
+
+  # Check if the spot is empty or a bad guy.
+  def valid_move?(move)
+   @board.get_spot(move).nil? || @board.get_spot(move).color != @color
   end
 
   def check_check
