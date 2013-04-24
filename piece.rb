@@ -21,7 +21,5 @@ class Piece
     @board.get_spot(move).nil? || @board.get_spot(move).color != @color
   end
 
-  def check_check
-  end
 
 end

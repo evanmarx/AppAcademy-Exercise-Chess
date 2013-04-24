@@ -100,6 +100,37 @@ class Board
     pos.all? {|el| (0...@grid.size).include?(el)}
   end
 
+  # checks if a spot is in check, returns the pieces that check it
+  def in_check?(color)
+    king_spot = get_king_spot(color)
+    whole_grid = @grid.flatten.compact
+    whole_grid.any? {|piece| piece.moves.include?(king_spot)}
+  end
+
+  def check_mate?(color)
+    pieces = @grid.flatten.compact.select { |piece| piece.color == color}
+    boards = []
+    pieces.each do |piece|
+      piece.moves.each do |move|
+        boards << self.dup.move(piece.pos, move)
+      end
+    end
+
+    boards.all? {|board| board.in_check?(color)}
+  end
+
+  def reveal_check?
+  end
+
+  def get_king_spot(color)
+     @grid.flatten.find {|piece| self.right_king?(piece, color)}.pos
+  end
+
+  def right_king?(piece, color)
+    piece.class == King && piece.color == color
+  end
+
+
 end
 
 
