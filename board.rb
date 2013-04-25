@@ -75,6 +75,7 @@ class Board
   end
 
   def nil_spot(pos)
+    # REV: ambiguous name
      self.set_spot(nil, pos)
      self
   end

@@ -1,3 +1,4 @@
+require "player"
 class Player
 
   attr_accessor :quitter
@@ -24,6 +25,7 @@ class HumanPlayer < Player
   end
 
   def take_turn(board)
+    # REV: the quit input is broken
     p @quitter
     raw = self.get_move
     if raw == :quit

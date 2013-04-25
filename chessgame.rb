@@ -1,3 +1,5 @@
+
+
 # encoding: utf-8
 
 require_relative "board"
@@ -18,6 +20,13 @@ class Chessgame
     startup
 
     until winner? || @player1.quitter || @player2.quitter
+      # REV: A lot of logic for displaying and updating
+      # the board betwee player turns is being run from
+      # the player class. This is requiring you to pass the
+      # board object to this class, whereas you could have
+      # mediated the interaction between board/player through
+      # this game class and thus make it more transparent
+      # how the logic of the game operates. 
       begin
         @player1.take_turn(@board)
         @player2.take_turn(@board)
