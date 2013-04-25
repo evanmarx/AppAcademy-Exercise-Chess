@@ -3,6 +3,9 @@
 require_relative "board"
 require_relative "player"
 
+
+#REV Good spacing in all of your files. It's very easy to read through and quickly spot the beginnings and end of different functions. 
+
 class Chessgame
 
   attr_accessor :board

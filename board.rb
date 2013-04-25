@@ -14,6 +14,7 @@ require_relative "slider"
 class Board
 
   attr_accessor :size, :grid
+  
 
   BACK_ROW = [Rook, Knight,
              Bishop, Queen,
@@ -24,7 +25,8 @@ class Board
     @size = size
     @grid = Array.new(size) {Array.new(size)}
   end
-
+  # REV I like the splitting up of pawns and backrows. 
+  # Makes set up simpler.
   def board_setup
     set_pawns
     set_backrows
@@ -75,6 +77,7 @@ class Board
   end
 
   def nil_spot(pos)
+    # REV "Empty spot" more informative than "nil spot"
      self.set_spot(nil, pos)
      self
   end
@@ -85,6 +88,7 @@ class Board
     self
   end
 
+  # REV Don't love the name "get_spot". What you're really getting is the piece object at the spot, or nil in the case of an empty square. Maybe get_at_spot, or get_piece, on_spot, or something like that. 
   def get_spot(pos)
     if in_board?(pos)
       x, y = pos
